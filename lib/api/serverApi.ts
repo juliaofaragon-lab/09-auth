@@ -1,3 +1,4 @@
+import type { AxiosResponse } from 'axios';
 import { cookies } from 'next/headers';
 
 import { api } from '@/lib/api/api';
@@ -56,9 +57,10 @@ export async function getMe(): Promise<User> {
   return response.data;
 }
 
-export async function checkSession(cookieHeader?: string): Promise<boolean> {
-  const response = await api.get<SessionResponse>('/auth/session', {
+export async function checkSession(
+  cookieHeader?: string,
+): Promise<AxiosResponse<SessionResponse>> {
+  return api.get<SessionResponse>('/auth/session', {
     headers: { Cookie: await getCookieHeader(cookieHeader) },
   });
-  return response.data.success;
 }
