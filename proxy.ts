@@ -55,7 +55,10 @@ export async function proxy(request: NextRequest) {
   }
 
   if (isPrivateRoute && !isAuthenticated) {
-    return NextResponse.redirect(new URL('/sign-in', request.url));
+    return addSessionCookies(
+      NextResponse.redirect(new URL('/sign-in', request.url)),
+      setCookieHeader,
+    );
   }
 
   if (isPublicRoute && isAuthenticated) {
